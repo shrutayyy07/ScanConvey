@@ -1,0 +1,72 @@
+version: "3.9"
+
+# Conveyor Counter - single-command startup
+# docker compose up --build
+
+services:
+
+  java-service:
+    build:
+      context: .
+      dockerfile: java-service/Dockerfile
+    container_name: cc-java
+    ports:
+      - "8080:8080"   # WebFlux REST
+      - "9090:9090"   # gRPC (Python connects here)
+    volumes:
+      - audit-logs:/app/audit
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/telemetry/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - cc-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cc-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - JAVA_GRPC_HOST=java-service
+      - JAVA_GRPC_PORT=9090
+    depends_on:
+      java-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - cc-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=http://localhost:8000
+    container_name: cc-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cc-net
+
+volumes:
+  audit-logs:
+
+networks:
+  cc-net:
+    driver: bridge

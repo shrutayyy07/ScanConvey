@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package conveyor;
+
+option java_multiple_files = true;
+option java_package = "com.conveyor.grpc.proto";
+option java_outer_classname = "ConveyorProto";
+
+// A single detected object on the conveyor belt
+message DetectedObject {
+  string  label       = 1;   // "Box", "Packet", "Parcel"
+  float   centroid_x  = 2;
+  float   centroid_y  = 3;
+  float   bbox_x      = 4;
+  float   bbox_y      = 5;
+  float   bbox_w      = 6;
+  float   bbox_h      = 7;
+  float   area_ratio  = 8;
+  float   confidence  = 9;   // YOLO confidence score (0.0–1.0)
+  string  defect_type = 10;  // "" | "crack" | "misalignment" | "missing_component"
+}
+
+// Frame telemetry pushed from Python vision engine to Java controller
+message FrameTelemetry {
+  int32              frame_index  = 1;
+  int32              total_frames = 2;
+  repeated DetectedObject objects = 3;
+  int32              box_count    = 4;
+  int32              packet_count = 5;
+  int32              parcel_count = 6;
+  int64              timestamp_ms = 7;
+}
+
+// Acknowledgement from Java back to Python
+message TelemetryAck {
+  bool   accepted    = 1;
+  string halt_reason = 2;   // non-empty when an emergency halt is triggered
+}
+
+// Service definition
+service ConveyorTelemetry {
+  // Python sends a stream of frame telemetry; Java streams back acks
+  rpc StreamTelemetry(stream FrameTelemetry) returns (stream TelemetryAck);
+}
