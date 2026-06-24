@@ -7,7 +7,7 @@ It is a full-stack application that counts **blue & white packets** on a conveyo
 - **Java Service** — Spring Boot WebFlux + gRPC + Rule Engine
 - **Infra** — Docker Compose
 
-## Getting Started
+## How to run
 ### Docker
 
 ```bash
