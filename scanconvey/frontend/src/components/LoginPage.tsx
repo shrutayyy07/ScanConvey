@@ -73,7 +73,7 @@ export default function LoginPage({ onSuccess }: LoginPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo & Header */}
         <div className="text-center mb-8">
@@ -103,7 +103,7 @@ export default function LoginPage({ onSuccess }: LoginPageProps) {
         </div>
 
         {/* Auth Card */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-7 backdrop-blur-xl">
+        <div className="bg-gray-900/60 border border-gray-800/60 rounded-2xl p-7 backdrop-blur-xl">
           {step === "phone" ? (
             <form onSubmit={handleSendOtp} className="space-y-5">
               <div>
@@ -115,7 +115,7 @@ export default function LoginPage({ onSuccess }: LoginPageProps) {
                   placeholder="+1 (555) 123-4567 or email@example.com"
                   value={phoneEmail}
                   onChange={(e) => setPhoneEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
                   required
                   disabled={loading}
                 />
@@ -158,7 +158,7 @@ export default function LoginPage({ onSuccess }: LoginPageProps) {
                   maxLength={6}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all text-center text-2xl font-mono tracking-widest"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all text-center text-2xl font-mono tracking-widest"
                   required
                   disabled={loading}
                 />
