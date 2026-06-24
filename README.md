@@ -1,16 +1,13 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/031b02df-362a-4c7a-9ef0-714aad34b566" /># ScanConvey
-
+# ScanConvey
 It is a full-stack application that counts **blue & white packets** on a conveyor belt by analysing an uploaded video file.
 
 ## Tech Stack
-
 - **Frontend** — React 18 + Vite + TypeScript + Tailwind CSS
 - **Backend** — Python FastAPI + OpenCV + YOLOv8
 - **Java Service** — Spring Boot WebFlux + gRPC + Rule Engine
 - **Infra** — Docker Compose
 
 ## Getting Started
-
 ### Docker
 
 ```bash
